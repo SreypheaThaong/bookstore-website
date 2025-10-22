@@ -42,7 +42,6 @@ COPY --from=builder /app/package*.json ./
 # Copy only existing build outputs (Next.js)
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/next.config.js ./ 
 COPY --from=builder /app/next.config.mjs ./ 
 
 # Install production dependencies
