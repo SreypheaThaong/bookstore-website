@@ -39,13 +39,11 @@ EXPOSE 3000
 # Copy package files
 COPY --from=builder /app/package*.json ./
 
-# Copy only existing build outputs (Next.js / Vite / React)
-RUN mkdir -p /app
+# Copy only existing build outputs (Next.js)
 COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/build ./build
-COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/next.config.* ./
+COPY --from=builder /app/next.config.js ./ 
+COPY --from=builder /app/next.config.mjs ./ 
 
 # Install production dependencies
 RUN corepack enable && \
@@ -55,4 +53,3 @@ RUN corepack enable && \
 
 # Default command
 CMD ["npm", "start"]
-
