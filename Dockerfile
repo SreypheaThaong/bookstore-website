@@ -44,11 +44,18 @@ COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/next.config.mjs ./ 
 
-# Install production dependencies
+# Install production dependencies (supports npm, yarn, pnpm)
 RUN corepack enable && \
-    if [ -f yarn.lock ]; then yarn install --production --frozen-lockfile; \
-    elif [ -f pnpm-lock.yaml ]; then pnpm install --prod --frozen-lockfile; \
-    else npm install --omit=dev; fi
+    if [ -f yarn.lock ]; then \
+        echo "Using Yarn"; \
+        yarn install --production --frozen-lockfile; \
+    elif [ -f pnpm-lock.yaml ]; then \
+        echo "Using PNPM"; \
+        pnpm install --prod --frozen-lockfile; \
+    else \
+        echo "Using NPM"; \
+        npm install --omit=dev --legacy-peer-deps; \
+    fi
 
 # Default command
 CMD ["npm", "start"]
