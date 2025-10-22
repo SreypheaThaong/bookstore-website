@@ -1,7 +1,7 @@
 # ================================
 # Stage 1: Build stage
 # ================================
-FROM node:18 AS builder
+FROM node:20 AS builder
 
 # Set working directory
 WORKDIR /app
@@ -30,7 +30,7 @@ RUN echo "Detected React/Next/Vite project" && \
 # ================================
 # Stage 2: Production stage
 # ================================
-FROM node:18-alpine AS runner
+FROM node:20-alpine AS runner
 
 WORKDIR /app
 ENV NODE_ENV=production
